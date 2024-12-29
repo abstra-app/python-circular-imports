@@ -9,12 +9,12 @@ ImportError: cannot import name 'some_module'
 or 
 
 ```
-"ImportError: cannot import name 'some_module' from partially initialized module 'path.to.module' (most likely due to a circular import) "
+ImportError: cannot import name 'some_module' from partially initialized module 'path.to.module' (most likely due to a circular import)
 ```
 
 then you have a circular import in your code.
 
-This library helps you to detect circular imports in Python code.
+This library helps you to detect circular imports in Python code to fix them.
 
 ## Installation
 
