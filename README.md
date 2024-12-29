@@ -26,16 +26,24 @@ pip install circular-imports
 
 ### CLI
 
+Example:
+
 ```bash
-circular-imports path/to/python/project/dir
+circular-imports path/to/python/project/dir --output output_file.dot --exclude .venv,build
 ```
+
+Parameters:
+
+- `path`: path to the Python project directory
+- `--output`: output file, this can be a `.dot`, `.mermaid`. When empty, the output will be printed to the console.
+- `--exclude`: comma-separated list of directories to exclude from the search
 
 ### Python
 
 ```python
-from circular_imports import find_circular_imports
+from circular_imports import cycles_in_path
 
-circular_imports = find_circular_imports('path/to/python/project/dir')
+circular_imports = cycles_in_path('path/to/python/project/dir')
 print(circular_imports)
 ```
 
