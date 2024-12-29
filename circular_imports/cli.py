@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Set, Tuple
-from find_deps import find_deps
-from graph import find_cycles
+from .find_deps import find_deps
+from .graph import find_cycles
 import fire
 
 
@@ -23,39 +23,57 @@ def cycles_in_path(path: str, exclude: str = None) -> Set[Tuple[str, str]]:
     return find_cycles(graph)
 
 
-class CLI:
-    def cycles(self, path: str, exclude: str = None, output: str = None):
-        cycles = cycles_in_path(path, exclude)
+def main(path: str, exclude: str = None, output: str = None):
+    """
+    Find circular imports in a Python project.
 
-        if output is None:
-            for cycle in cycles:
-                print(" -> ".join(cycle))
-        elif output.endswith(".dot"):
-            dot_code = "digraph G {\n"
-            for cycle in cycles:
-                for i in range(len(cycle)):
-                    dot_code += f'"{cycle[i]}" -> "{cycle[(i + 1) % len(cycle)]}"\n'
-            dot_code += "}"
+    Args:
+        path (str): Path to the Python project.
+        exclude (str, optional): Comma separated list of patterns to exclude. Defaults to None.
+        output (str, optional): Output format. Defaults to None.
 
-            with open(output, "w") as f:
-                f.write(dot_code)
-        elif output.endswith(".mermaid"):
-            mermaid_code = "graph TD\n"
-            for cycle in cycles:
-                for i in range(len(cycle)):
-                    mermaid_code += (
-                        f'"{cycle[i]}" --> "{cycle[(i + 1) % len(cycle)]}"\n'
-                    )
+    Supported output formats:
+    - .dot: Graphviz DOT format
+    - .mermaid: Mermaid.js format
 
-            with open(output, "w") as f:
-                f.write(mermaid_code)
-        else:
-            print(f"Unsupported output format {output}")
-            exit(1)
+    Examples:
+    $ circular_imports .
 
-        if len(cycles) > 0:
-            exit(1)
+    $ circular_imports . --exclude "tests,docs"
+
+    $ circular_imports . --output graph.dot
+
+    $ circular_imports . --output graph.mermaid
+    """
+    cycles = cycles_in_path(path, exclude)
+
+    if output is None:
+        for cycle in cycles:
+            print(" -> ".join(cycle))
+    elif output.endswith(".dot"):
+        dot_code = "digraph G {\n"
+        for cycle in cycles:
+            for i in range(len(cycle)):
+                dot_code += f'"{cycle[i]}" -> "{cycle[(i + 1) % len(cycle)]}"\n'
+        dot_code += "}"
+
+        with open(output, "w") as f:
+            f.write(dot_code)
+    elif output.endswith(".mermaid"):
+        mermaid_code = "graph TD\n"
+        for cycle in cycles:
+            for i in range(len(cycle)):
+                mermaid_code += f'"{cycle[i]}" --> "{cycle[(i + 1) % len(cycle)]}"\n'
+
+        with open(output, "w") as f:
+            f.write(mermaid_code)
+    else:
+        print(f"Unsupported output format {output}")
+        exit(1)
+
+    if len(cycles) > 0:
+        exit(1)
 
 
 if __name__ == "__main__":
-    fire.Fire(CLI)
+    fire.Fire(main)

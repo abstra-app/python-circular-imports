@@ -1,5 +1,5 @@
 from unittest import TestCase
-from graph import find_cycles, normalize_cycle
+from .graph import find_cycles, normalize_cycle
 
 
 class TestNormalizeCycle(TestCase):
