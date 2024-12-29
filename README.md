@@ -35,7 +35,7 @@ circular-imports path/to/python/project/dir --output output_file.dot --exclude .
 Parameters:
 
 - `path`: path to the Python project directory
-- `--output`: output file, this can be a `.dot`, `.mermaid`. When empty, the output will be printed to the console.
+- `--output`: output file, this can be a [`.dot`](https://graphviz.org/docs/layouts/dot/), [`.mermaid`](https://mermaid.js.org/). When empty, the output will be printed to the console.
 - `--exclude`: comma-separated list of directories to exclude from the search
 
 Exits with code 0 if no circular imports are found, 1 otherwise.
