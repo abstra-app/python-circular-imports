@@ -50,7 +50,7 @@ from circular_imports import cycles_in_path
 
 class TestCircularDeps(TestCase):
     def test_no_cycles(self):
-        cycles = cycles_in_path(".", ".venv,build")
+        cycles = cycles_in_path(".", exclude=".venv,build")
         self.assertEqual(cycles, set())
 ```
 
