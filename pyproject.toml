@@ -9,7 +9,7 @@ readme = "README.md"
 python = ">=3.8"
 
 [tool.poetry.scripts]
-circular-imports = "circular_imports.cli:CLI"
+circular-imports = "circular_imports.cli:main"
 
 [build-system]
 requires = ["poetry-core"]
