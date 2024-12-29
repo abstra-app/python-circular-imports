@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "circular-imports"
-version = "0.1.0"
+version = "0.0.0"
 description = "Detect circular imports in codebase."
 authors = ["Bruno Costa <bruno@abstra.app>"]
 readme = "README.md"

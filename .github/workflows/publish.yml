@@ -26,6 +26,9 @@ jobs:
 
       - name: Install dependencies
         run: poetry install
+      
+      - name: Set version
+        run: poetry version $TAG
 
       - name: Build package
         run: poetry build
