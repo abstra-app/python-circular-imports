@@ -23,7 +23,7 @@ def cycles_in_path(path: str, exclude: str = None) -> Set[Tuple[str, str]]:
     return find_cycles(graph)
 
 
-def main(path: str, exclude: str = None, output: str = None):
+def run(path: str, exclude: str = None, output: str = None):
     """
     Find circular imports in a Python project.
 
@@ -75,5 +75,9 @@ def main(path: str, exclude: str = None, output: str = None):
         exit(1)
 
 
+def main():
+    fire.Fire(run)
+
+
 if __name__ == "__main__":
-    fire.Fire(main)
+    main()
