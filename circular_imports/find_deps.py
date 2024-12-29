@@ -151,7 +151,8 @@ class DependencyFinder(ast.NodeVisitor):
 def find_deps(
     base_path: Path, code_path: Path, excluded_patterns: List[str]
 ) -> Set[Path]:
-    tree = ast.parse(code_path.read_text("utf-8"))
+    code = code_path.read_text("utf-8")
+    tree = ast.parse(code)
     visitor = DependencyFinder(base_path, excluded_patterns, code_path)
     visitor.visit(tree)
 

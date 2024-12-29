@@ -60,10 +60,10 @@ def main(path: str, exclude: str = None, output: str = None):
         with open(output, "w") as f:
             f.write(dot_code)
     elif output.endswith(".mermaid"):
-        mermaid_code = "graph TD\n"
+        mermaid_code = "graph TD;\n"
         for cycle in cycles:
             for i in range(len(cycle)):
-                mermaid_code += f'"{cycle[i]}" --> "{cycle[(i + 1) % len(cycle)]}"\n'
+                mermaid_code += f"    {cycle[i]} --> {cycle[(i + 1) % len(cycle)]};\n"
 
         with open(output, "w") as f:
             f.write(mermaid_code)
