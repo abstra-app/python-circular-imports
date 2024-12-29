@@ -38,6 +38,8 @@ Parameters:
 - `--output`: output file, this can be a `.dot`, `.mermaid`. When empty, the output will be printed to the console.
 - `--exclude`: comma-separated list of directories to exclude from the search
 
+Exits with code 0 if no circular imports are found, 1 otherwise.
+
 ### Python
 
 ```python

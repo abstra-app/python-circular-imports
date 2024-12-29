@@ -53,6 +53,9 @@ class CLI:
             print(f"Unsupported output format {output}")
             exit(1)
 
+        if len(cycles) > 0:
+            exit(1)
+
 
 if __name__ == "__main__":
     fire.Fire(CLI)
