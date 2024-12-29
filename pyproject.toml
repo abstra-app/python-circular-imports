@@ -1,13 +1,15 @@
 [tool.poetry]
 name = "circular-imports"
 version = "0.1.0"
-description = ""
-authors = ["Bruno Vieira Costa <bruno@abstra.app>"]
+description = "Detect circular imports in codebase."
+authors = ["Bruno Costa <bruno@abstra.app>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
 
+[tool.poetry.scripts]
+circular-imports = "circular_imports.cli:CLI"
 
 [build-system]
 requires = ["poetry-core"]

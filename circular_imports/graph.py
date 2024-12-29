@@ -1,5 +1,6 @@
 from typing import List, Set, Tuple, Dict
 
+
 def find_cycles(graph: Set[Tuple[str, str]]) -> Set[List[str]]:
     graph_: Dict[str, Set[str]] = {}
     for a, b in graph:
@@ -18,10 +19,10 @@ def find_cycles(graph: Set[Tuple[str, str]]) -> Set[List[str]]:
                 if neighbor not in visited:
                     dfs(neighbor, visited, path)
                 elif neighbor in path:
-                    cycles.append(normalize_cycle(path[path.index(neighbor):]))
+                    cycles.append(normalize_cycle(path[path.index(neighbor) :]))
         path.pop()
         return cycles
-    
+
     for node in graph_:
         if node not in visited:
             dfs(node, visited, [])

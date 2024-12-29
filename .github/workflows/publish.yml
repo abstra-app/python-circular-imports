@@ -17,16 +17,18 @@ jobs:
 
       - uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.11
 
-      - name: Install dependencies
+      - name: Install Poetry
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install setuptools wheel twine
+          pip install poetry
 
-      - name: "Builds"
-        run: python setup.py sdist bdist_wheel
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Build package
+        run: poetry build
 
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
