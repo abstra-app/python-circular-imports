@@ -1,7 +1,7 @@
 from typing import List, Set, Tuple, Dict
 
 
-def find_cycles(graph: Set[Tuple[str, str]]) -> Set[List[str]]:
+def find_cycles(graph: Set[Tuple[str, str]]) -> List[List[str]]:
     graph_: Dict[str, Set[str]] = {}
     for a, b in graph:
         if a not in graph_:

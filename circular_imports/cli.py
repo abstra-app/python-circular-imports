@@ -1,11 +1,11 @@
 from pathlib import Path
-from typing import Set, Tuple
+from typing import Set, Tuple, List
 from .find_deps import find_deps
 from .graph import find_cycles
 import fire
 
 
-def cycles_in_path(path: str, exclude: str = None) -> Set[Tuple[str, str]]:
+def cycles_in_path(path: str, exclude: str = None) -> List[List[str]]:
     excluded_patterns = list(map(str.strip, exclude.split(","))) if exclude else []
     path_ = Path(path)
     assert path_.exists(), f"Path {path_} does not exist"
