@@ -43,10 +43,15 @@ Exits with code 0 if no circular imports are found, 1 otherwise.
 ### Python
 
 ```python
+from unittest import TestCase
+
 from circular_imports import cycles_in_path
 
-circular_imports = cycles_in_path('path/to/python/project/dir')
-print(circular_imports)
+
+class TestCircularDeps(TestCase):
+    def test_no_cycles(self):
+        cycles = cycles_in_path(".", ".venv,build")
+        self.assertEqual(cycles, set())
 ```
 
 ## License
