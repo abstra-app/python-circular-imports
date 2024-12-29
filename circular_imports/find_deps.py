@@ -128,7 +128,6 @@ class DependencyFinder(ast.NodeVisitor):
             and isinstance(node.test, ast.Name)
             and node.test.id == self.typechecking_imported_name
         ):
-            print("found type checking block")
             self.in_type_checking_block = True
             self.generic_visit(node)
             self.in_type_checking_block = False
@@ -141,7 +140,6 @@ class DependencyFinder(ast.NodeVisitor):
             and isinstance(node.test.value, ast.Name)
             and node.test.value.id == self.typing_imported_name
         ):
-            print("found type checking block")
             self.in_type_checking_block = True
             self.generic_visit(node)
             self.in_type_checking_block = False
@@ -157,7 +155,4 @@ def find_deps(
     visitor = DependencyFinder(base_path, excluded_patterns, code_path)
     visitor.visit(tree)
 
-    print(code_path)
-    for dep in visitor.deps:
-        print("  ", dep)
     return visitor.deps
