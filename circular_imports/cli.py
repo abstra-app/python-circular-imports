@@ -5,31 +5,53 @@ from graph import find_cycles
 import fire
 
 
+def cycles_in_path(path: str, exclude: str = None) -> Set[Tuple[str, str]]:
+    excluded_patterns = list(map(str.strip, exclude.split(","))) if exclude else []
+    path_ = Path(path)
+    assert path_.exists(), f"Path {path_} does not exist"
+    assert path_.is_dir(), f"Path {path_} is not a directory"
+
+    all_python_files: Set[Path] = set(path_.glob("**/*.py"))
+
+    graph: Set[Tuple[str, str]] = set()
+    for python_file in all_python_files:
+        if any(e in str(python_file) for e in excluded_patterns):
+            continue
+        deps = find_deps(path_, python_file, excluded_patterns)
+        for dep in deps:
+            graph.add((str(python_file.relative_to(path_)), str(dep)))
+    return find_cycles(graph)
+
+
 class CLI:
-    def cycles(self, path: str, exclude: str = None):
-        excluded_patterns = list(map(str.strip, exclude.split(","))) if exclude else []
-        path_ = Path(path)
-        assert path_.exists(), f"Path {path_} does not exist"
-        assert path_.is_dir(), f"Path {path_} is not a directory"
+    def cycles(self, path: str, exclude: str = None, output: str = None):
+        cycles = cycles_in_path(path, exclude)
 
-        all_python_files: Set[Path] = set(path_.glob("**/*.py"))
+        if output is None:
+            for cycle in cycles:
+                print(" -> ".join(cycle))
+        elif output.endswith(".dot"):
+            dot_code = "digraph G {\n"
+            for cycle in cycles:
+                for i in range(len(cycle)):
+                    dot_code += f'"{cycle[i]}" -> "{cycle[(i + 1) % len(cycle)]}"\n'
+            dot_code += "}"
 
-        graph: Set[Tuple[str, str]] = set()
-        for python_file in all_python_files:
-            if any(e in str(python_file) for e in excluded_patterns):
-                continue
-            deps = find_deps(path_, python_file, excluded_patterns)
-            for dep in deps:
-                graph.add((str(python_file.relative_to(path_)), str(dep)))
-        cycles = find_cycles(graph)
+            with open(output, "w") as f:
+                f.write(dot_code)
+        elif output.endswith(".mermaid"):
+            mermaid_code = "graph TD\n"
+            for cycle in cycles:
+                for i in range(len(cycle)):
+                    mermaid_code += (
+                        f'"{cycle[i]}" --> "{cycle[(i + 1) % len(cycle)]}"\n'
+                    )
 
-        dot_code = "digraph G {\n"
-        for cycle in cycles:
-            for i in range(len(cycle)):
-                dot_code += f'"{cycle[i]}" -> "{cycle[(i + 1) % len(cycle)]}"\n'
-        dot_code += "}"
-
-        print(dot_code)
+            with open(output, "w") as f:
+                f.write(mermaid_code)
+        else:
+            print(f"Unsupported output format {output}")
+            exit(1)
 
 
 if __name__ == "__main__":
